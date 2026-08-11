@@ -31,3 +31,33 @@ jobs:
 
       - name: Run tests
         run: pytest
+        
+      - name : upload application artifact
+        uses : actions/upload-artifact@v7
+        with :
+            name : flask-app
+            path : 01-github-actions/flask-apache-ec2-deployment/
+
+  deploy :
+    needs: build
+    runs-on : ubuntu-latest
+    steps :
+        - name : Download application artifact
+          uses : actions/download-artifact@v8
+          with :
+            name : flask-app
+            path : flask-app
+        - name : copy application to ec2
+          uses : appleboy/scp-action@v1
+          with :
+            host : ${{secrets.EC2_HOST}}
+            username : ${{secrets.EC2_USER}}
+            key : ${{secrets.EC2_SSH_KEY}}
+            script : |
+                cd /home/ubuntu/cloudxdeepak/flask-app
+                python3 -m venv .venv
+                source .venv/bin/activate
+                pip install -r requirements.txt
+                sudo systemctl restart cloudxdeepak
+
+
