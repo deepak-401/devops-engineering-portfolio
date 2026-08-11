@@ -63,6 +63,7 @@ jobs:
 
           source: "flask-app/*"
           target: "/home/ubuntu/cloudxdeepak/flask-app"
+          strip_components: 1
           rm: true
 
       - name: Start Flask application
@@ -73,6 +74,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
+            set -e 
             cd /home/ubuntu/cloudxdeepak/flask-app
 
             python3 -m venv .venv
