@@ -1,0 +1,33 @@
+name: Flask EC2 CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "01-github-actions/flask-apache-ec2-deployment/**"
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./01-github-actions/flask-apache-ec2-deployment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check Python application
+        run: python -m py_compile app.py
