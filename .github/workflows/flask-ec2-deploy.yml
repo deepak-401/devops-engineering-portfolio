@@ -7,6 +7,8 @@ on:
     paths:
       - "01-github-actions/flask-apache-ec2-deployment/**"
       - ".github/workflows/flask-ec2-deploy.yml"
+      - "!01-github-actions/flask-apache2-ec2-deployment/README.md"
+      - "!01-github-actions/flask-apache2-ec2-deployment/Architecture.png"
 
   workflow_dispatch:
 
